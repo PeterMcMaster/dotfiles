@@ -1,5 +1,6 @@
-theme = Catppuccin Mocha 
+theme = Tomorrow Night
 font-size = 18
-keybind = cmd+plus=increase_font_size
-keybind = cmd+minus=decrease_font_size
-keybind = cmd+0=reset_font_size
+keybind = super+==increase_font_size:1
+keybind = super++=increase_font_size:1
+keybind = super+-=decrease_font_size:1
+keybind = super+0=reset_font_size

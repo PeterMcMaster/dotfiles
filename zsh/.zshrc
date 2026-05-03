@@ -18,7 +18,23 @@ if command -v zoxide >/dev/null 2>&1; then
 fi
 
 # Convenience
-alias ll='ls -alF'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
+alias ll='ls -lah'
+alias la='ls -A'
+alias l='ls -CF'
+
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+alias gl='git log --oneline --graph --decorate --all'
+
+alias tm='tmux'
+alias ta='tmux attach -t'
+alias tls='tmux ls'
 
 # Quick AI ask
 alias '??'='noglob opencode run'

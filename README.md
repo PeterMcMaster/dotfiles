@@ -1,111 +1,213 @@
 # dotfiles
 
-Personal config files, linked to ~/.config with Stow
+Personal dotfiles managed with GNU Stow.
 
-## Structure
+This repo is primarily used to link config into:
+- `~/.config/<app>/...`
+- `~/.zshrc`
 
-This repo uses a Stow layout that targets `~/.config`. Each package contains
-a nested folder named after the app so `stow <package>` links to
-`~/.config/<app>/...`.
+## What is here
 
-## Packages
+Packages in this repo:
+- `zsh`
+- `starship`
+- `ghostty`
+- `tmux`
+- `nvim`
+- `aerospace`
 
-### aerospace
+Notes:
+- `aerospace` is macOS-only.
+- `ghostty` works on both macOS and Linux, but config syntax can vary by Ghostty version.
+- `tmux` uses TPM plugins.
+- `nvim` uses `lazy.nvim`.
 
-A MacOS window manager for efficiently navigating mac spaces without their long ahhh transitions
+## Repo Layout
 
-Commands / keybinds:
-- `alt-/` toggle layout (tiles horizontal/vertical)
-- `alt-h/j/k/l` focus left/down/up/right
-- `alt-shift-h/j/k/l` move window left/down/up/right
-- `alt--` / `alt-=` resize smaller/larger
-- `alt-m` / `alt-,` / `alt-.` / `alt-d` / `alt-b` / `alt-t` switch to workspaces `1/2/3/D/B/T`
-- `alt-shift-m` / `alt-shift-,` / `alt-shift-.` / `alt-shift-d` / `alt-shift-b` / `alt-shift-t` move window to workspaces `1/2/3/D/B/T`
-- `alt-tab` last workspace; `alt-shift-tab` move workspace to next monitor
-- `alt-x` close focused window
-- `alt-shift-;` enter service mode, then:
-  - `esc` reload config + return to main
-  - `r` reset layout; `f` toggle floating/tiling
-  - `backspace` close all but current
-  - `alt-shift-h/j/k/l` join-with left/down/up/right
+This repo uses a Stow layout.
 
-### zsh
+Examples:
+- `ghostty/ghostty/config` -> `~/.config/ghostty/config`
+- `nvim/nvim/init.lua` -> `~/.config/nvim/init.lua`
+- `zsh/.zshrc` -> `~/.zshrc`
 
-Zsh shell config, link into `~` (not `~/.config`) with the commands below
+## macOS Install
 
-Commands:
-- `ll` = `ls -alF`
-- `z` (from zoxide) jumps to frequently used dirs, if zoxide is installed
+Fast path:
 
-### ghostty
-
-A cooler terminal
-
-Commands:
-- No custom commands
-
-### nvim
-
-NeoVim config
-
-Commands / keybinds (leader is space):
-- `<leader>pv` open netrw
-- `<leader>t` terminal in bottom split; `<leader>T` terminal in right split
-- `<C-q>` close current window (normal/insert/terminal/visual)
-- `<leader>e` toggle Neo-tree file explorer
-- `<leader>h/j/k/l` move focus left/down/up/right split
-- `<leader>cc` toggle Codex
-- `<leader>y` / `<leader>Y` yank to system clipboard
-- `<leader>u` toggle Undotree
-- `<leader>gs` open Fugitive Git status
-- `<leader>ff` Telescope find files; `<C-p>` Telescope git files
-- `<leader>fs` Telescope live grep (prompted)
-- Harpoon: `<leader>a` add file; `<C-e>` quick menu; `<C-h/j/k/l>` go to file 1/2/3/4
-- LSP: `gd` definition; `K` hover; `gi` implementation; `<leader>rn` rename; `<leader>ca` code action
-- Completion: `<CR>` confirm; `<C-Space>` trigger
-- Neo-tree window: `C` set root; `U` go to parent directory
-
-### starship
-
-This makes the shell prompt actually look good
-
-Commands:
-- No custom commands 
-
-### tmux
-
-After installing plugins with prefix-I, change line 105 in the sessionx shell script to remove the -n "..." at the end so that zoxide will not rename new windows for you 
-
-Commands / keybinds (prefix is `C-a`):
-- `C-a r` reload config
-- Pane navigation: `C-a h/j/k/l` move focus; `C-a ^` last window
-- Pane splits: `C-a s` horizontal; `C-a v` vertical; 
-- `C-a x` kill pane (no confirm)
-- Copy mode: `v` start selection; `y` copy to macOS clipboard
-- Sessionx: `C-a o` open; `C-a ctrl-y` new window with zoxide; `C-a ctrl-d` kill session; `C-a alt-j/k` scroll down/up
-
-## Stow
-
-Dry run:
-
-```
-stow -n -v nvim ghostty aerospace tmux starship
+```zsh
+cd ~/dotfiles
+./bootstrap-macos.sh
 ```
 
-Apply:
+### 1. Install dependencies
 
+Install Homebrew first if needed, then:
+
+```zsh
+brew install stow tmux neovim starship zoxide ripgrep fd tree-sitter git curl
+brew install --cask ghostty
+brew install --cask nikitabobko/tap/aerospace
 ```
+
+### 2. Clone the repo
+
+```zsh
+git clone https://github.com/PeterMcMaster/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+```
+
+### 3. Stow the config
+
+```zsh
 stow nvim ghostty aerospace tmux starship
-```
-
-Zsh (`~/.zshrc`):
-
-```
 stow -t ~ zsh
 ```
 
-## Install lazy plugin manager for Nvim
+If you want to preview first:
+
+```zsh
+stow -n -v nvim ghostty aerospace tmux starship
+stow -n -v -t ~ zsh
 ```
+
+### 4. Install tmux plugins
+
+```zsh
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+~/.tmux/plugins/tpm/bin/install_plugins
+```
+
+### 5. Install Neovim plugin manager
+
+```zsh
 mkdir -p ~/.local/share/nvim/lazy
 git clone https://github.com/folke/lazy.nvim.git ~/.local/share/nvim/lazy/lazy.nvim
 ```
+
+Then open Neovim once:
+
+```zsh
+nvim
+```
+
+### 6. Finish macOS-specific setup
+
+- Launch `Ghostty`
+- Launch `AeroSpace.app`
+- Grant AeroSpace Accessibility permissions in macOS Settings
+
+## Linux Install
+
+Fast path:
+
+```zsh
+cd ~/dotfiles
+./bootstrap-linux.sh
+```
+
+### 1. Install dependencies
+
+Package names vary by distro. On Debian/Ubuntu:
+
+```zsh
+sudo apt update
+sudo apt install -y zsh tmux stow neovim zoxide ripgrep fd-find git curl
+```
+
+Optional:
+
+```zsh
+sudo apt install -y tree-sitter-cli
+```
+
+Install Starship separately if it is not available in your distro packages:
+
+```zsh
+curl -fsSL https://starship.rs/install.sh | sh
+```
+
+Ghostty installation depends on distro and how recent a build you want. Install Ghostty separately using your distro package, package repo, or official release process.
+
+Do not install or stow `aerospace` on Linux.
+
+### 2. Clone the repo
+
+```zsh
+git clone https://github.com/PeterMcMaster/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+```
+
+### 3. Stow the config
+
+```zsh
+stow nvim ghostty tmux starship
+stow -t ~ zsh
+```
+
+Preview first if needed:
+
+```zsh
+stow -n -v nvim ghostty tmux starship
+stow -n -v -t ~ zsh
+```
+
+### 4. Install tmux plugins
+
+```zsh
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+~/.tmux/plugins/tpm/bin/install_plugins
+```
+
+### 5. Install Neovim plugin manager
+
+```zsh
+mkdir -p ~/.local/share/nvim/lazy
+git clone https://github.com/folke/lazy.nvim.git ~/.local/share/nvim/lazy/lazy.nvim
+```
+
+Then open Neovim once:
+
+```zsh
+nvim
+```
+
+## Updating
+
+From inside the repo:
+
+```zsh
+cd ~/dotfiles
+git status
+git add .
+git commit -m "Update dotfiles"
+git push
+```
+
+## Verification
+
+Useful checks after install:
+
+```zsh
+ghostty +validate-config
+nvim --headless "+q"
+tmux -V
+starship --version
+```
+
+Check links:
+
+```zsh
+ls -l ~/.zshrc
+ls -l ~/.config/ghostty
+ls -l ~/.config/nvim
+ls -l ~/.config/starship
+ls -l ~/.config/tmux
+```
+
+## Platform Notes
+
+- `aerospace` is for macOS only.
+- `pbcopy` in the tmux config is macOS-specific clipboard behavior.
+- `zsh/.zshrc` includes a small Linux-specific `TERM` guard for Ghostty.
+- Ghostty config may need adjustment if a future Ghostty release changes keybind syntax again.
