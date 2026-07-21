@@ -17,6 +17,11 @@ if ! command -v starship >/dev/null 2>&1; then
   curl -fsSL https://starship.rs/install.sh | sh
 fi
 
+# opencode is used by the '??' alias in zsh/.zshrc (not packaged in apt).
+if ! command -v opencode >/dev/null 2>&1; then
+  curl -fsSL https://opencode.ai/install | bash
+fi
+
 mkdir -p "${HOME}/.tmux/plugins"
 if [ ! -d "${HOME}/.tmux/plugins/tpm" ]; then
   git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"

@@ -45,7 +45,7 @@ cd ~/dotfiles
 Install Homebrew first if needed, then:
 
 ```zsh
-brew install stow tmux neovim starship zoxide ripgrep fd tree-sitter git curl
+brew install stow tmux neovim starship zoxide ripgrep fd tree-sitter-cli opencode git curl
 brew install --cask ghostty
 brew install --cask nikitabobko/tap/aerospace
 ```
@@ -125,6 +125,12 @@ Install Starship separately if it is not available in your distro packages:
 
 ```zsh
 curl -fsSL https://starship.rs/install.sh | sh
+```
+
+Install `opencode` (used by the `??` alias in `zsh/.zshrc`); it is not packaged in apt:
+
+```zsh
+curl -fsSL https://opencode.ai/install | bash
 ```
 
 Ghostty installation depends on distro and how recent a build you want. Install Ghostty separately using your distro package, package repo, or official release process.

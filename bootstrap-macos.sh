@@ -9,7 +9,7 @@ if ! command -v brew >/dev/null 2>&1; then
   exit 1
 fi
 
-brew install stow tmux neovim starship zoxide ripgrep fd tree-sitter git curl
+brew install stow tmux neovim starship zoxide ripgrep fd tree-sitter-cli opencode git curl
 brew install --cask ghostty
 brew install --cask nikitabobko/tap/aerospace
 
